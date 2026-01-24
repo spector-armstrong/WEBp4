@@ -42,16 +42,28 @@ body {
 .city {
     background-color: #E1D9BC;
     height: 50vh;
+    padding: 0 10px 0 10px;
 }
 
 .city-name {
     color: #30364F;
     font-size: xx-large;
+    margin: 10px 0 10px 0;
+}
+
+.tools {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.delete {
+    background: none;
+    border: none;
 }
 
 .city-forecast {
     height: 35vh;
-
 }
 
 .forecast {
@@ -62,17 +74,23 @@ body {
 @media (min-width: 768px){
     .city-forecast {
         display: grid;
-        grid-template: 1fr / repeat(10, 1fr);
+        grid-template: 1fr / repeat(7, 1fr);
         column-gap: 10px;
-        overflow: auto;
-        white-space: nowrap;
     }
 }
 
 @media (max-width: 767px){
     .city-forecast {
-        overflow: auto;
-        white-space: nowrap;
+        display: grid;
+        grid-template: 1fr / repeat(2, 1fr);
+        column-gap: 10px;
+        grid-auto-columns: 1fr;
+        grid-auto-flow: row;
+        overflow-x: scroll;
+    }
+    .forecast {
+        grid-row: 1;
+        grid-column: auto;
     }
 }
 
