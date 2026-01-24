@@ -69,12 +69,14 @@ body {
 .forecast {
     background-color: #ACBAC4;
     height: 99%;
+    display: grid;
+    
 }
 
 @media (min-width: 768px){
     .city-forecast {
         display: grid;
-        grid-template: 1fr / repeat(7, 1fr);
+        grid-template: 1fr / repeat(5, 1fr);
         column-gap: 10px;
     }
 }
