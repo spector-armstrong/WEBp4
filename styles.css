@@ -1,0 +1,20 @@
+body {
+    margin: 0;
+    background-color: #F0F0DB;
+}
+
+.header-bg {
+    width: 100vw;
+    height: 15vh;
+    background-color: #30364F;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header-name {
+    font-family: Bricolage Grotesque;
+    font-weight: 800;
+    color: #ACBAC4;
+    
+}
