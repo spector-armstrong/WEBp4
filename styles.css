@@ -1,6 +1,7 @@
 body {
     margin: 0;
     background-color: #F0F0DB;
+    font-family: Bricolage Grotesque;
 }
 
 .header-bg {
@@ -13,8 +14,65 @@ body {
 }
 
 .header-name {
-    font-family: Bricolage Grotesque;
     font-weight: 800;
     color: #ACBAC4;
-    
 }
+
+.search {
+    display: grid;
+    grid-template: 1fr 1fr / 4fr 1fr;
+    margin: 2vh 5vw 2vh 5vw;
+    row-gap: 10px;
+    column-gap: 10px;
+}
+
+.search > label {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    font-size: x-large;
+    color: #30364F;
+}
+
+.search > input {
+    grid-row-start: 2;
+    grid-column-start: 1;
+    font-size: larger;
+}
+
+.city {
+    background-color: #E1D9BC;
+    height: 50vh;
+}
+
+.city-name {
+    color: #30364F;
+    font-size: xx-large;
+}
+
+.city-forecast {
+    height: 35vh;
+
+}
+
+.forecast {
+    background-color: #ACBAC4;
+    height: 99%;
+}
+
+@media (min-width: 768px){
+    .city-forecast {
+        display: grid;
+        grid-template: 1fr / repeat(10, 1fr);
+        column-gap: 10px;
+        overflow: auto;
+        white-space: nowrap;
+    }
+}
+
+@media (max-width: 767px){
+    .city-forecast {
+        overflow: auto;
+        white-space: nowrap;
+    }
+}
+
