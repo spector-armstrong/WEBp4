@@ -3,9 +3,10 @@ const container = document.querySelector(".city-forecast")
 
 
 document.querySelector(".search-btn").addEventListener("click", function () {
+    extended = [];
+    container.innerHTML = '';
     let cityStr = document.querySelector("#city-search").value;
     if (cityStr) {
-        console.log(cityStr)
         GetWeather(cityStr);
     } else {
         alert("Input is incorrect");
@@ -34,6 +35,8 @@ async function GetWeather(name) {
         const innerWeather = weatherResponseJson.daily;
         console.log(innerWeather)
 
+        document.querySelector(".city-name").textContent = responseJson.results[0].name;
+
         for (let i = 0; i < 5; i++) {
             let weatherType = descriptions[innerWeather.weather_code[i]].day.description;
             let weatherImg = descriptions[innerWeather.weather_code[i]].day.image;
@@ -47,11 +50,11 @@ async function GetWeather(name) {
         };
 
         console.log(extended);
-        
+
         extended.forEach((date) => {
             const content = `
                     <div class="forecast day${date.date}">
-                        <img src="${date.image} class="weather-img" alt="${date.weather}">
+                        <img src="${date.image}" class="weather-img" alt="${date.weather}" >
                         <p class="weather">${date.weather}</p>
                         <p class="high">H: ${date.temp_max}°</p>
                         <p class="low">L: ${date.temp_min}°</p>

@@ -68,9 +68,27 @@ body {
 
 .forecast {
     background-color: #ACBAC4;
+    color: #30364F;
     height: 99%;
     display: grid;
-    
+    grid-template: 3fr 1fr 1fr / 1fr 1fr;
+    align-items: center;
+    justify-items: center;
+    font-size: large;
+}
+
+.forecast > p {
+    margin: 0;
+}
+
+.weather-img{
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
+
+.weather {
+    grid-column-start: 1;
+    grid-column-end: 3;
 }
 
 @media (min-width: 768px){
