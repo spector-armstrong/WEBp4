@@ -1,5 +1,35 @@
-let extended = []
+let extended = [];
+let naviLoc = [];
+var modal = document.getElementById("myModal");
+
+var span = document.getElementsByClassName("close")[0];
+
+span.onclick = function() {
+  modal.style.display = "none";
+  document.querySelector(".modal-text").textContent = "";
+}
+
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+	document.querySelector(".modal-text").textContent = "";
+  }
+}
+
+const openModal = function (text) {
+	modal.style.display = "block";
+	document.querySelector(".modal-text").textContent = text;
+}
+
 const container = document.querySelector(".city-forecast")
+
+if ("geolocation" in navigator) {
+	navigator.geolocation.getCurrentPosition((position) => {
+		naviLoc.push(position.coords.latitude, position.coords.longitude)
+	});
+} else {
+	openModal("Can't find user location. Enter your city below.")
+}
 
 
 document.querySelector(".search-btn").addEventListener("click", function () {
@@ -23,17 +53,17 @@ async function GetWeather(name) {
             throw new Error(response.error)};
             
         const responseJson = await response.json();
-        console.log(responseJson);
+
 
         let lat = responseJson.results[0].latitude;
         let lon = responseJson.results[0].longitude;
-        console.log(lat, lon);
+
 
         const weatherResponse = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=weather_code,temperature_2m_max,temperature_2m_min`);
         const weatherResponseJson = await weatherResponse.json();
 
         const innerWeather = weatherResponseJson.daily;
-        console.log(innerWeather)
+
 
         document.querySelector(".city-name").textContent = responseJson.results[0].name;
 
@@ -49,7 +79,7 @@ async function GetWeather(name) {
             });
         };
 
-        console.log(extended);
+
 
         extended.forEach((date) => {
             const content = `
