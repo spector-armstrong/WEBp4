@@ -20,7 +20,7 @@ body {
 
 .search {
     display: grid;
-    grid-template: 1fr 1fr / 4fr 1fr;
+    grid-template: 1fr 1fr / 1fr 3fr 1fr;
     margin: 2vh 5vw 2vh 5vw;
     row-gap: 10px;
     column-gap: 10px;
@@ -28,12 +28,18 @@ body {
 
 .search > label {
     grid-column-start: 1;
-    grid-column-end: 3;
+    grid-column-end: 4;
     font-size: x-large;
     color: #30364F;
 }
 
 .search > input {
+    grid-row-start: 2;
+    grid-column-start: 2;
+    font-size: larger;
+}
+
+.search > country-dropdown {
     grid-row-start: 2;
     grid-column-start: 1;
     font-size: larger;

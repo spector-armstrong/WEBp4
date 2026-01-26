@@ -1,8 +1,13 @@
 let extended = [];
 let naviLoc = [];
-var modal = document.getElementById("myModal");
+const countryCodes = [];
+const citiesArr = [];
+let modal = document.getElementById("myModal");
+let span = document.getElementsByClassName("close")[0];
 
-var span = document.getElementsByClassName("close")[0];
+
+
+console.log(citiesData)
 
 span.onclick = function() {
   modal.style.display = "none";
@@ -26,9 +31,12 @@ const container = document.querySelector(".city-forecast")
 if ("geolocation" in navigator) {
 	navigator.geolocation.getCurrentPosition((position) => {
 		naviLoc.push(position.coords.latitude, position.coords.longitude)
+	},
+	(error) => {
+		openModal("Can't find user location. Enter your city below.")
 	});
 } else {
-	openModal("Can't find user location. Enter your city below.")
+	openModal("Location is not supported.")
 }
 
 
@@ -39,7 +47,7 @@ document.querySelector(".search-btn").addEventListener("click", function () {
     if (cityStr) {
         GetWeather(cityStr);
     } else {
-        alert("Input is incorrect");
+        openModal("Input is incorrect.");
     };
 });
 
