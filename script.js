@@ -1,6 +1,7 @@
 let extended = [];
 let naviLoc = [];
-const areaCodes = [];
+let citiesExt = [];
+let coordinates = [];
 let modal = document.getElementById("myModal");
 let span = document.getElementsByClassName("close")[0];
 const areaDropdown = document.querySelector(".region-dropdown");
@@ -39,18 +40,6 @@ if ("geolocation" in navigator) {
 	openModal("Location is not supported.")
 }
 
-
-document.querySelector(".search-btn").addEventListener("click", function () {
-    extended = [];
-    container.innerHTML = '';
-    let cityStr = document.querySelector("#city-search").value;
-    if (cityStr) {
-        GetWeather(cityStr);
-    } else {
-        openModal("Input is incorrect.");
-    };
-});
-
 async function getDropdown() {
   const url = "https://api.hh.ru/areas";
   try {
@@ -70,15 +59,40 @@ async function getDropdown() {
 	});
 	areaDropdown.addEventListener("change", function() {
 		let dropdownValue = areaDropdown.value;
-		let cities = regions.filter(area => area.name = dropdownValue)
-		cities[0].areas.forEach((city) => {
-			let option = document.createElement('option');
-			option.id = city.id;
-			option.value = city.name;          
-			option.textContent = city.name;
-			cityDropdown.appendChild(option);
-		})
+		for (let i = 0; i < regions.length; i++) {
+			if (regions[i].name == dropdownValue) {
+				let cities = regions[i].areas;
+				citiesExt = [];
+				citiesExt.push(cities);
+				cityDropdown.innerHTML = '';
+				cities.forEach((city) => {
+					let option = document.createElement('option');
+					option.id = city.id;
+					option.value = city.name;        
+					option.textContent = city.name;
+					cityDropdown.appendChild(option);
+				});
+			};
+		};
 	});
+	document.querySelector(".search-btn").addEventListener("click", function () {
+		extended = [];
+		container.innerHTML = '';
+		let cityStr = document.querySelector(".city-dropdown").value;
+		if (cityStr) {
+			for (let i = 0; i < citiesExt[0].length; i++) {
+				if (citiesExt[0][i].name == cityStr) {
+					coordinates = [];
+					coordinates.push(cityStr)
+					coordinates.push(citiesExt[0][i].lat);
+					coordinates.push(citiesExt[0][i].lng);
+				};
+			};
+			GetWeather(coordinates);
+		} else {
+			openModal("Input is incorrect.");
+    };
+});
   } catch (error) {
     console.error(error.message);
   }
@@ -86,18 +100,10 @@ async function getDropdown() {
 
 getDropdown();
 
-async function GetWeather(name) {
+async function GetWeather(coordinates) {
     try {
-        const response = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${name}&count=1&language=en&format=json`);
-
-        if (response.status !== 200) {
-            throw new Error(response.error)};
-            
-        const responseJson = await response.json();
-
-
-        let lat = responseJson.results[0].latitude;
-        let lon = responseJson.results[0].longitude;
+        let lat = coordinates[1];
+        let lon = coordinates[2];
 
 
         const weatherResponse = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=weather_code,temperature_2m_max,temperature_2m_min`);
@@ -106,7 +112,7 @@ async function GetWeather(name) {
         const innerWeather = weatherResponseJson.daily;
 
 
-        document.querySelector(".city-name").textContent = responseJson.results[0].name;
+        document.querySelector(".city-name").textContent = coordinates[0];
 
         for (let i = 0; i < 5; i++) {
             let weatherType = descriptions[innerWeather.weather_code[i]].day.description;
