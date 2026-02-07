@@ -1,13 +1,13 @@
 let extended = [];
 let naviLoc = [];
-const countryCodes = [];
-const citiesArr = [];
+const areaCodes = [];
 let modal = document.getElementById("myModal");
 let span = document.getElementsByClassName("close")[0];
+const areaDropdown = document.querySelector(".region-dropdown");
+const cityDropdown = document.querySelector(".city-dropdown");
 
 
 
-console.log(citiesData)
 
 span.onclick = function() {
   modal.style.display = "none";
@@ -51,7 +51,40 @@ document.querySelector(".search-btn").addEventListener("click", function () {
     };
 });
 
+async function getDropdown() {
+  const url = "https://api.hh.ru/areas";
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Response status: ${response.status}`);
+    }
 
+    const data = await response.json();
+    const regions = data[0].areas;
+	regions.forEach((area) => {
+		let option = document.createElement('option');
+		option.id = area.id;
+        option.value = area.name;          
+        option.textContent = area.name;
+		areaDropdown.appendChild(option);
+	});
+	areaDropdown.addEventListener("change", function() {
+		let dropdownValue = areaDropdown.value;
+		let cities = regions.filter(area => area.name = dropdownValue)
+		cities[0].areas.forEach((city) => {
+			let option = document.createElement('option');
+			option.id = city.id;
+			option.value = city.name;          
+			option.textContent = city.name;
+			cityDropdown.appendChild(option);
+		})
+	});
+  } catch (error) {
+    console.error(error.message);
+  }
+}
+
+getDropdown();
 
 async function GetWeather(name) {
     try {
